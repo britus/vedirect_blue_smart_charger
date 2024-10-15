@@ -83,7 +83,15 @@ void MainWindow::on_btnClose_clicked()
 
 void MainWindow::on_btnWriteReg_clicked()
 {
-    m_chr.sendSetRegister(ui->edRegister->value(), ui->edValue->value());
+    if (ui->edValue->value() > 65535) {
+        m_chr.sendSetRegister(ui->edRegister->value(), (quint32) ui->edValue->value());
+    }
+    else if (ui->edValue->value() > 255) {
+        m_chr.sendSetRegister(ui->edRegister->value(), (quint16) ui->edValue->value());
+    }
+    else {
+        m_chr.sendSetRegister(ui->edRegister->value(), (quint8) ui->edValue->value());
+    }
 }
 
 inline void MainWindow::setupDefaults()
@@ -100,8 +108,10 @@ inline void MainWindow::setupDefaults()
     m_chr.sendGetRegister(0x010C);
     m_chr.sendGetRegister(0x1070);
     m_chr.sendGetRegister(0x2001);
+
+    /* charge LiFePo battery */
     m_chr.setBatteryCharger();
-    m_chr.sendSetRegister(0xEDF1, 4);
+    m_chr.sendSetRegister(0xEDF1, (quint8) 4);
 }
 
 inline void MainWindow::initializeUI()

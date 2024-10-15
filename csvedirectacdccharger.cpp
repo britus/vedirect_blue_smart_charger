@@ -120,12 +120,12 @@ void CSVeDirectAcDcCharger::stopVEDirect()
 
 void CSVeDirectAcDcCharger::setPowerSupply()
 {
-    sendSetRegister(0x0206, 1);
+    sendSetRegister(0x0206, (quint8) 1);
 }
 
 void CSVeDirectAcDcCharger::setBatteryCharger()
 {
-    sendSetRegister(0x0206, 0);
+    sendSetRegister(0x0206, (quint8) 0);
 }
 
 void CSVeDirectAcDcCharger::sendGetRegister(quint16 regid)
@@ -149,13 +149,33 @@ void CSVeDirectAcDcCharger::sendSetRegister(quint16 regid, const QString& value)
     m_queue.append(ved);
 }
 
-void CSVeDirectAcDcCharger::sendSetRegister(quint16 regid, quint16 value)
+void CSVeDirectAcDcCharger::sendSetRegister(quint16 regid, quint8 value)
 {
     CSVEDirect::ved_t ved = {};
     CSVEDirect::setCommand(&ved, VED_CMD_SET);
     CSVEDirect::setId(&ved, regid);
     CSVEDirect::setFlags(&ved, 0);
     CSVEDirect::setU8(&ved, value);
+    m_queue.append(ved);
+}
+
+void CSVeDirectAcDcCharger::sendSetRegister(quint16 regid, quint16 value)
+{
+    CSVEDirect::ved_t ved = {};
+    CSVEDirect::setCommand(&ved, VED_CMD_SET);
+    CSVEDirect::setId(&ved, regid);
+    CSVEDirect::setFlags(&ved, 0);
+    CSVEDirect::setU16(&ved, value);
+    m_queue.append(ved);
+}
+
+void CSVeDirectAcDcCharger::sendSetRegister(quint16 regid, quint32 value)
+{
+    CSVEDirect::ved_t ved = {};
+    CSVEDirect::setCommand(&ved, VED_CMD_SET);
+    CSVEDirect::setId(&ved, regid);
+    CSVEDirect::setFlags(&ved, 0);
+    CSVEDirect::setU32(&ved, value);
     m_queue.append(ved);
 }
 

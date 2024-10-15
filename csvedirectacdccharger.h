@@ -77,7 +77,9 @@ public:
     void setBatteryCharger();
     void sendGetRegister(quint16 regid);
     void sendSetRegister(quint16 regid, const QString& value);
+    void sendSetRegister(quint16 regid, quint8 value);
     void sendSetRegister(quint16 regid, quint16 value);
+    void sendSetRegister(quint16 regid, quint32 value);
     void sendPing();
 
     const TVedConfig& configOut() const;
