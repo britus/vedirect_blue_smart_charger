@@ -437,38 +437,41 @@ inline void CSVeDirectAcDcCharger::veChargerSetTextField(const QString& field, c
     if (field == "PID") {
         setRegister(0x00001, value.count(), value);
         /* reset field counter */
-        m_stateData.m_complete = false;
-        m_stateData.m_counter = 0;
+        m_stateData.m_counter++;
     }
     /* firmware release 24bit -> 0342FF */
     else if (field == "FWE") {
         setRegister(0x00002, value.count(), value);
+        m_stateData.m_counter++;
     }
     /* serial number -> HQ2247PTFUR */
     else if (field == "SER#") {
         setRegister(0x00003, value.count(), value);
+        m_stateData.m_counter++;
     }
     /* voltage -> 12850mV -> 12.850V */
     else if (field == "V") {
         setRegister(0xED8D, 0.001f, value.toDouble());
-        return;
+        m_stateData.m_counter++;
     }
     /* current 0.400A */
     else if (field == "I") {
         setRegister(0xED8F, 0.001f, value.toDouble());
-        return;
+        m_stateData.m_counter++;
     }
     /* time? */
     else if (field == "T") {
         if (value.toUInt() != 0) {
             setRegister(0x2009, 0.01f, value.toUInt());
         }
+        m_stateData.m_counter++;
     }
     /* error code */
     else if (field == "ERR") {
         if (value.toInt() != 0) {
             setRegister(0x2009, 1, value.toInt());
         }
+        m_stateData.m_counter++;
     }
     /* work mode status */
     else if (field == "CS") {
@@ -479,17 +482,16 @@ inline void CSVeDirectAcDcCharger::veChargerSetTextField(const QString& field, c
             setRegister(0x0206, 1, 0);
         }
         setRegister(0x0201, 1, value.toInt());
-        return;
+        m_stateData.m_counter++;
     }
     /* should be the last one */
     else if (field == "HC#") {
         setRegister(0x0004, value.count(), value);
-        m_stateData.m_complete = true;
+        m_stateData.m_counter++;
     }
 
-    m_stateData.m_counter++;
-
-    if (m_stateData.m_complete) {
+    if (m_stateData.m_counter >= 9) {
+        m_stateData.m_counter = 0;
         veSendCommandQueue();
     }
 }

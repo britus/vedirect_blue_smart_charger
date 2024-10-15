@@ -58,7 +58,6 @@ public:
 
     typedef struct {
         uint m_counter;
-        bool m_complete;
     } TStateData;
 
     explicit CSVeDirectAcDcCharger(QObject* parent = nullptr);
