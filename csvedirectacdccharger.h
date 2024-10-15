@@ -1,3 +1,9 @@
+/*********************************************************************
+ * Copyright EoF Software Labs. All Rights Reserved.
+ * Copyright EoF Software Labs Authors.
+ * Written by B. Eschrich (bjoern.eschrich@gmail.com)
+ * SPDX-License-Identifier: MIT License
+ **********************************************************************/
 #pragma once
 #include <QMap>
 #include <QObject>

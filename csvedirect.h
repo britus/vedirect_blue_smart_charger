@@ -30,13 +30,11 @@
 #define VED_FLAG_PARAM_ERROR   0x04 // Parameter Error
 
 /**
- * @brief The CSVEDirect class
- *
- * VE.HEX en-/decoder
+ * @brief VE.HEX en-/decoder
  *
  * VE.Direct connection is based on a simple TTL UART
- * communication port. GND/Vdd (5V) is used to power up
- * isolated UART at Victron VE.Direct device.
+ * communication port. GND/Vdd (3.3V) is used to power up
+ * isolated UART at Victron VE.Direct device (i.e. Cerbo GX).
  */
 class CSVEDirect: public QObject
 {
@@ -196,8 +194,7 @@ private:
 };
 
 /**
- * @brief The CSVeDParser class is a simple event
- * driven VE.TEXT / VE.HEX parser.
+ * @brief Event driven VE.TEXT / VE.HEX parser.
  */
 class CSVeParser: public CSVEDirect
 {
@@ -215,29 +212,9 @@ public:
         QByteArray source;
     } TVeHexFrame;
 
-    /**
-     * @brief handle serial port input stream
-     * @param c character
-     */
     void handle(int c);
-    /**
-     * @brief reportUnknown
-     * @param ved
-     * @param command
-     */
     void setUnknownCmd(ved_t* ved, quint8 command);
-    /**
-     * @brief setUnknownId
-     * @param ved
-     * @param command
-     * @param id
-     */
     void setUnknownId(ved_t* ved, quint8 command, quint8 id);
-    /**
-     * @brief toCmdStr
-     * @param cmd
-     * @return
-     */
     QByteArray toCmdStr(quint8 cmd) const;
 
 signals:

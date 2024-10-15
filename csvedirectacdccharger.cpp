@@ -1,3 +1,9 @@
+/*********************************************************************
+ * Copyright EoF Software Labs. All Rights Reserved.
+ * Copyright EoF Software Labs Authors.
+ * Written by B. Eschrich (bjoern.eschrich@gmail.com)
+ * SPDX-License-Identifier: MIT License
+ **********************************************************************/
 #include <QCoreApplication>
 #include <QDebug>
 #include <QThread>
@@ -436,7 +442,6 @@ inline void CSVeDirectAcDcCharger::veChargerSetTextField(const QString& field, c
     /* product id -> 0xA330 */
     if (field == "PID") {
         setRegister(0x00001, value.count(), value);
-        /* reset field counter */
         m_stateData.m_counter++;
     }
     /* firmware release 24bit -> 0342FF */
